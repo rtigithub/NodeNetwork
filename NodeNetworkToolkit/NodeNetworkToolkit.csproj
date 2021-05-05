@@ -1,6 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;net472</TargetFrameworks>
+    <TargetFrameworks>net5.0-windows;net472</TargetFrameworks>
     <OutputType>Library</OutputType>
     <RootNamespace>NodeNetwork.Toolkit</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -18,13 +18,14 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DocumentationFile>bin\Release\NodeNetworkToolkit.xml</DocumentationFile>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System.Windows" />
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net5.0-windows|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\NodeNetwork\NodeNetwork.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore" Version="5.0.0" />
     <PackageReference Include="ReactiveUI" Version="13.2.18" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>

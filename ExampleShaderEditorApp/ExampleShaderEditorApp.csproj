@@ -1,15 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <StartupObject>ExampleShaderEditorApp.App</StartupObject>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System.Windows" />
-  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Models\suzanne.obj">
       <SubType>Designer</SubType>
@@ -31,7 +28,7 @@
     <Resource Include="Resources\Icons\pos.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.0.2" />
+    <PackageReference Include="DotNetProjects.Extended.Wpf.Toolkit" Version="4.6.97" />
     <PackageReference Include="MathNet.Numerics" Version="4.15.0" />
     <PackageReference Include="MathNet.Spatial" Version="0.6.0" />
     <PackageReference Include="OpenTK" Version="3.3.1" />
