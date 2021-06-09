@@ -1,29 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ExampleShaderEditorApp.Render;
+using ExampleShaderEditorApp.ViewModels;
+using OpenTK.Graphics.OpenGL;
+using ReactiveUI;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
-using ExampleShaderEditorApp.Render;
-using ExampleShaderEditorApp.ViewModels;
-using MathNet.Numerics.LinearAlgebra;
-using OpenTK;
-using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL;
-using ReactiveUI;
+using OpenTK.Wpf;
 
 namespace ExampleShaderEditorApp.Views
 {
@@ -77,7 +63,7 @@ namespace ExampleShaderEditorApp.Views
         public static readonly DependencyProperty FragmentShaderProperty = DependencyProperty.Register(
             nameof(FragmentShader), typeof(Shader), typeof(ShaderPreviewView), new PropertyMetadata(null));
         #endregion
-        
+
         #region ShaderProgram
         public ShaderProgram ShaderProgram
         {
@@ -94,7 +80,7 @@ namespace ExampleShaderEditorApp.Views
 
         private CompositeDisposable _disposable;
 
-        private GLControl glControl;
+        //private GLControl glControl;
 
         private readonly DateTime startTime;
 
@@ -102,18 +88,20 @@ namespace ExampleShaderEditorApp.Views
         {
             InitializeComponent();
             startTime = DateTime.Now;
-
-            glControl = new GLControl(new GraphicsMode(new ColorFormat(24), 24), 3, 3, GraphicsContextFlags.Default)
-            {
-                Dock = System.Windows.Forms.DockStyle.Fill
-            };
+            var glControlSettings = new GLWpfControlSettings();
+            glControl.Start(glControlSettings);
+            //glControl = new GLControl(new GraphicsMode(new ColorFormat(24), 24), 3, 3, GraphicsContextFlags.Default)
+            //{
+            //    Dock = System.Windows.Forms.DockStyle.Fill
+            //};
             glControl.Paint += GlControl_Render;
 
             InitContext();
 
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(16);
-            timer.Tick += (s, e) => {
+            timer.Tick += (s, e) =>
+            {
                 glControl.Invalidate();
             };
             timer.Start();
@@ -173,6 +161,14 @@ namespace ExampleShaderEditorApp.Views
             }
         }
 
+        private void glControl_OnRender(TimeSpan obj)
+        {
+            if (ViewModel != null)
+            {
+                _renderer.Render(glControl.FrameBufferWidth, glControl.FrameBufferHeight, ViewModel.WorldRoot, ViewModel.ActiveCamera, (float)obj.TotalSeconds);
+            }
+        }
+
         /*
         TODO: should be called when the GlControl context is destroyed, but there seems to be no event available.
         private void DestroyContext(object sender, EventArgs e)
@@ -184,16 +180,15 @@ namespace ExampleShaderEditorApp.Views
         }
         */
 
-        private void GlControl_Render(object sender, EventArgs e)
-        {
-            if (ViewModel != null)
-            {
-                glControl.MakeCurrent();
-                
-                float seconds = ((float)(DateTime.Now - startTime).TotalMilliseconds)/1000f;
-                _renderer.Render(glControl.ClientSize.Width, glControl.ClientSize.Height, ViewModel.WorldRoot, ViewModel.ActiveCamera, seconds);
-                glControl.SwapBuffers();
-            }
-        }
+        //private void GlControl_Render(object sender, EventArgs e)
+        //{
+        //    if (ViewModel != null)
+        //    {
+        //        glControl.MakeCurrent();
+
+        //        float seconds = ((float)(DateTime.Now - startTime).TotalMilliseconds) / 1000f;
+        //        glControl.SwapBuffers();
+        //    }
+        //}
     }
 }

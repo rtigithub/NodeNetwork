@@ -4,6 +4,7 @@ using System.Text;
 using MathNet.Numerics.LinearAlgebra;
 using OpenTK.Graphics.OpenGL;
 using OpenTK;
+using OpenTK.Mathematics;
 
 namespace ExampleShaderEditorApp.Render
 {

@@ -7,9 +7,6 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.Windows" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\NodeNetworkToolkit\NodeNetworkToolkit.csproj" />
     <ProjectReference Include="..\NodeNetwork\NodeNetwork.csproj" />
   </ItemGroup>
